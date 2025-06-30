@@ -66,10 +66,10 @@ A secure backend API built using **Express** and **JWT authentication**, enablin
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/shybash-shaik/week_03.git
+git clone https://github.com/hivespacee/JWT_Assignment.git
 cd week_03/secret-quote-api
 
-git clone https://github.com/shybash-shaik/week_03.git
+git clone https://github.com/hivespacee/JWT_Assignment.git
 cd week_03/secret-quote-api
  
 2. Install Dependencies
