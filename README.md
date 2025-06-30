@@ -1,21 +1,168 @@
-## Easy ##
+# User-Specific To-Do List API
 
-![Screenshot 2025-06-29 141244](https://github.com/user-attachments/assets/1cf6839c-841c-4157-8f9f-36ca6c2275af)
+A secure backend API built using **Express** and **JWT authentication**, enabling:
 
-![Screenshot 2025-06-29 141944](https://github.com/user-attachments/assets/e196997f-b1b5-4115-922b-17f2e4ba4201)
+- User registration and login  
+- Personalized to-do list management  
+- Secure password handling with `bcrypt`  
+- Admin-exclusive access through role-based authorization  
 
-![Screenshot 2025-06-29 151755](https://github.com/user-attachments/assets/2866c899-5e40-4c57-8961-c6b4facfc8c4)
+> For simplicity, this version uses **in-memory storage**—no database required.
 
-## Meduium ##
+---
 
-![Screenshot 2025-06-29 182831](https://github.com/user-attachments/assets/166c7c38-e68f-4a93-9580-70cd06c63d90)
+## Features
 
-![Screenshot 2025-06-29 190336](https://github.com/user-attachments/assets/b8edcb5e-aabf-44de-a57a-e249c0cb15ab)
+- **JWT Authentication** – Issues access tokens with a **1-hour expiry**
+- **Protected Routes** – All `/api/todos` endpoints require a valid Bearer token
+- **User-Specific To-Dos** – Users can access and modify only their own tasks
+- **Role-Based Authorization** – Admins have elevated privileges to access all to-dos
+- **Password Security** – Passwords are securely hashed using `bcrypt`
 
-![Screenshot 2025-06-29 190714](https://github.com/user-attachments/assets/48588e81-822f-412f-8ba4-c59d20800f18)
+---
 
-![Screenshot 2025-06-29 190638](https://github.com/user-attachments/assets/44aeb013-028e-430a-b1a0-7a373b30f003)
+## Tech Stack
 
-![Screenshot 2025-06-29 190714](https://github.com/user-attachments/assets/2ddda3bb-1359-420a-a99d-af5b295af32f)
+- Node.js  
+- Express.js  
+- bcrypt  
+- jsonwebtoken  
 
-![Screenshot 2025-06-29 190940](https://github.com/user-attachments/assets/b1b88c71-7c32-4561-b477-3ff62b28d8a8)
+---
+
+## Screenshots
+
+### Easy – Authentication & Protected Access
+
+**User Registration**  
+![register](https://github.com/user-attachments/assets/0182c657-0d76-4ce2-8f1b-93886cc3a9c9)
+
+**User Login**  
+![login](https://github.com/user-attachments/assets/de39d04a-9e21-4939-a5be-bddd6b98eef1)
+
+**Accessing a Protected Route**  
+![api-secret](https://github.com/user-attachments/assets/78a75f71-46e3-4b6b-a4e5-0aae7bfe4c87)
+
+---
+
+### Medium – To-Do Management & Role Authorization
+
+**Add a New To-Do**  
+![add-todo](https://github.com/user-attachments/assets/51cb6f17-df8d-4db3-9fff-2806eb60bc1f)
+
+**Retrieve To-Dos**  
+![get-todo](https://github.com/user-attachments/assets/af0905d7-8e2f-4468-ae77-e00d955adc34)
+
+**Delete a To-Do**  
+![delete-todo](https://github.com/user-attachments/assets/ba9fd91b-4e0c-4da8-8d90-9f7ce40ddfd4)
+
+**Admin – Access All To-Dos**  
+![admin-data](https://github.com/user-attachments/assets/97fc596b-57cc-4251-be74-2b73d476da47)
+
+---
+
+## Getting Started
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/shybash-shaik/week_03.git
+cd week_03/secret-quote-api
+
+git clone https://github.com/shybash-shaik/week_03.git
+cd week_03/secret-quote-api
+ 
+2. Install Dependencies
+ 
+npm install
+ 
+3. Run the Server
+ 
+npm start
+ 
+API Endpoints
+ 
+All /api routes require Authorization header:
+Authorization: Bearer <accessToken>
+ 
+Register a New User
+POST /register
+ 
+{
+  "username": "Amaan",
+  "password": "password"
+}
+(Optional admin user):
+ 
+{
+  "username": "Amaan",
+  "password": "password",
+  "role": "admin"
+}
+Login
+POST /login
+ 
+{
+  "username": "Amaan Ahmed",
+  "password": "password"
+}
+Response:
+ 
+{
+  "accessToken": "..."
+}
+ 
+Create a To-Do
+ 
+POST /api/todos
+{
+  "task": "We need some space in hell"
+}
+📄 Get User’s To-Dos
+GET /api/todos
+ 
+Returns only the to-dos owned by the currently logged-in user.
+ 
+Delete a To-Do
+DELETE /api/todos/:id
+ 
+Only allows deletion if the to-do belongs to the logged-in user.
+ 
+Admin Only: View All To-Dos
+GET /api/admin/all-todos
+ 
+Only accessible to users with role: "admin"
+ 
+How Access Control Works
+When a user logs in, a JWT is issued containing: id, username, and role
+ 
+Authentication middleware verifies the token and attaches data to req.user
+ 
+/api/todos routes filter data based on req.user.id
+ 
+Admin routes use authorizeAdmin middleware to allow only users with role: "admin"
+ 
+Example Test Data for To-Dos
+ 
+{ "task": "Learn JWT auth" }
+{ "task": "Buy groceries" }
+{ "task": "Read middleware documentation" }
+{ "task": "Deploy app to Render" }
+{ "task": "Review pull requests" }
+Testing with Postman
+Register a user (/register)
+ 
+Log in to receive a token (/login)
+ 
+Include this in headers for protected routes:
+ 
+Authorization: Bearer your.jwt.token.here
+Access and test endpoints like:
+ 
+POST /api/todos
+ 
+GET /api/todos
+ 
+DELETE /api/todos/:id
+ 
+GET /api/admin/all-todos (admin only)
